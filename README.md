@@ -1,16 +1,44 @@
-# React + Vite
+# Шапка страниц guap.ru
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Для сборки необходимо клонировать репозиторий и установить все зависимости:
+```bash
+git clone https://github.com/kikimorii/suaiHeaderReact
+cd ./suaiHeaderReact
+npm i
+```
+А после этого собрать весь проект
+```bash
+npm run build
+```
 
-Currently, two official plugins are available:
+### В результате получится следующая директория:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+dist
+├── assets
+│   ├── desktopMenu
+│   ├── mobileMenu
+│   ├── utils
+│   ├── index-[hash].js
+│   ├── index-[hash].css
+│   ├── main.js
+├── _nav_2025.json
+└── index.html
+```
+Где `desktopMenu` — скрипты для работы меню на Desktop-версии сайта, `mobileMenu` — скрипты для работы меню на версии для телефонов и `utils` — самописные функции для этого.
 
-## React Compiler
+Для того, чтоб это всё работало необходимо перенести папку `assets` в нужное место для хранения и подключить к странице два файла `index-[hash].js` и `index-[hash].css` в теге `<head></head>`.
+При помощи следующих двух строчек:
+```html
+<head>
+    <!-- ... -->
+    <script type="module" crossorigin src="путь/index-[hash]-.js"></script>
+    <link rel="stylesheet" crossorigin href="путь/index-[hash].css">
+    <!-- ... -->
+</head>
+```
+И после этого создать на странице тег div с классом headerWrapper для инкапсуляции стилей, чтоб они никак не повлияли на остальные, а также `id=header`, чтоб именно в этом блоке происходила инициализация `header'а`.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+__Для лучшей работы необходимо обернуть весь контент остальной контент, заисключением `footer` в div с классом `mainContent`, а к тегу `<footer></footer>` добавить класс `footer`, чтобы контент фиксировался на месте при появлении меню шапки.__
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Минимальная структура для работы представлена в `dist/index.html` после сборки.
